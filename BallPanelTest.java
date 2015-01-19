@@ -7,6 +7,7 @@ public class BallPanelTest extends JFrame
 	
 	public BallPanelTest()
 	{
+		super( "Bouncing Ball" );
 		ballPanel = new BallPanel();
 		add( ballPanel );
 	}
@@ -15,7 +16,7 @@ public class BallPanelTest extends JFrame
 	{
 		BallPanelTest bpt = new BallPanelTest();
 		bpt.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-		bpt.setSize( 600, 600 );
+		bpt.pack();
 		bpt.setVisible( true );
 	}
 }
