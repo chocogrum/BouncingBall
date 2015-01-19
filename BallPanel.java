@@ -3,12 +3,11 @@ import java.awt.Graphics;
 import java.awt.geom.Ellipse2D;
 import java.awt.Color;
 import java.awt.Graphics2D;
-import javax.swing.Timer;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ExecutorService;
 import java.awt.Dimension;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class BallPanel extends JPanel
 {
@@ -23,26 +22,40 @@ public class BallPanel extends JPanel
 		setPreferredSize( new Dimension( 400, 400 ) );
 		width = ( int ) getPreferredSize().getWidth();
 		height = ( int ) getPreferredSize().getHeight();
-		ball = new Ball( width, height, 10 );
 		repaintTimer = new RepaintTimer( this );
 		threadExecutor = Executors.newCachedThreadPool();
-		threadExecutor.execute( ball );
-		threadExecutor.execute( repaintTimer );
-		setBackground( Color.BLUE );
-		setOpaque( false );
+		setBackground( Color.WHITE );
+		setOpaque( true );
+		addMouseListener( new MouseListener() );
 	}
 	
 	public void paintComponent( Graphics g )
 	{
 		super.paintComponent( g );
-		setBackground( Color.BLUE );
-		setOpaque( false );
 		Graphics2D g2d = ( Graphics2D ) g;
 		
 		if( ball != null )
 		{
-			g2d.setPaint( Color.RED );
+			g2d.setPaint( Color.BLUE );
 			g2d.fill( new Ellipse2D.Double( ball.getXCoord(), ball.getYCoord(), 10, 10 ) );
+		}
+	}
+	
+	public class MouseListener extends MouseAdapter
+	{
+		public void mousePressed( MouseEvent e )
+		{
+			if( ball == null )
+			{
+				System.out.println( "Ball is null" );
+				ball = new Ball(  ( int ) getPreferredSize().getWidth(),
+								  ( int ) getPreferredSize().getHeight(),
+								  e.getX(),
+								  e.getY(),
+								  10 );
+				threadExecutor.execute( ball );
+				threadExecutor.execute( repaintTimer );
+			}
 		}
 	}
 }

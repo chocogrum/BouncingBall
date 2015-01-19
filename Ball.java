@@ -13,10 +13,10 @@ public class Ball implements Runnable
 	private boolean downwards;
 	private Random randomGenerator;
 
-	public Ball( int windowWidth, int windowHeight, int ballDiameter )
+	public Ball( int windowWidth, int windowHeight, int startX, int startY, int ballDiameter )
 	{
-		setXCoord( 0 );
-		setYCoord( 0 );
+		setXCoord( startX );
+		setYCoord( startY );
 		diameter = ballDiameter;
 		forwards = true;
 		downwards = true;
